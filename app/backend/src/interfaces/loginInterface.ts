@@ -14,7 +14,7 @@ export interface ILoginService {
 export interface ILoginController {
   readonly _loginService: ILoginService;
   getLogin(req: Request, res: Response, next: NextFunction):
-  Promise<Response<ILoggedUser, Record<string, ILoggedUser>> | undefined>;
+  Promise<Response<ILoggedUser, Record<string, ILoggedUser>> | void>;
 }
 
 export interface ILoggedUser {

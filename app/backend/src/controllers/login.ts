@@ -13,6 +13,10 @@ class Login implements ILoginController {
       const loginInfo: ILoginInfo = req.body;
       const loggedUser = await this._loginService.getLogin(loginInfo);
 
+      if (!loggedUser) {
+        return next({ status: 401, message: 'Incorrect email or password' });
+      }
+
       return res.status(200).json(loggedUser);
     } catch (error) {
       next(error);

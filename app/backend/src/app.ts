@@ -1,12 +1,11 @@
 import * as express from 'express';
+import errorHandle from './middlewares/errorHandle';
 import Routes from './routes';
 
 class App {
   public app: express.Express;
-  // ...
 
   constructor() {
-    // ...
     this.app = express();
     this.config();
     this.middlewares();
@@ -27,6 +26,9 @@ class App {
   private middlewares():void {
     // routes
     this.app.use(Routes.Login);
+
+    // error middleware
+    this.app.use(errorHandle);
   }
 
   public start(PORT: string | number):void {
