@@ -1,4 +1,5 @@
 import * as express from 'express';
+import Routes from './routes';
 
 class App {
   public app: express.Express;
@@ -8,7 +9,7 @@ class App {
     // ...
     this.app = express();
     this.config();
-    // ...
+    this.middlewares();
   }
 
   private config():void {
@@ -20,10 +21,14 @@ class App {
     };
 
     this.app.use(accessControl);
-    // ...
+    this.app.use(express.json());
   }
 
-  // ...
+  private middlewares():void {
+    // routes
+    this.app.use(Routes.Login);
+  }
+
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
   }

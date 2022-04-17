@@ -1,10 +1,23 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
 
-class User extends Model {
+export interface IUser {
+  id: number;
   username: string;
   role: string;
   email: string;
+  password: string;
+}
+
+class User extends Model<IUser> implements IUser {
+  id: number;
+
+  username: string;
+
+  role: string;
+
+  email: string;
+
   password: string;
 }
 
@@ -13,7 +26,7 @@ User.init({
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
   },
   username: {
     type: DataTypes.STRING,
@@ -25,12 +38,12 @@ User.init({
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 }, {
   underscored: true,
   sequelize: db,

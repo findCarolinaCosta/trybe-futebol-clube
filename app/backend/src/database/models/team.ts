@@ -3,6 +3,7 @@ import db from '.';
 
 class Team extends Model {
   id: number;
+
   teamName: string;
 }
 
@@ -11,11 +12,11 @@ Team.init({
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
   },
   teamName: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
 }, {
   underscored: true,
