@@ -4,7 +4,7 @@ import { readFile } from 'fs/promises';
 const jwtConfig = {
   expiresIn: '1d',
 };
-const secret = readFile('jwt.evaluation.key');
+const secret: Promise<Buffer> = readFile('jwt.evaluation.key');
 
 export const createToken = async (data = {}): Promise<string> =>
   jwt.sign({ data }, await secret, jwtConfig);

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { ILoginService, ILoginInfo, ILoginController } from '../interfaces/loginInterface';
+import { ILoginService, ILoginInfo,
+  ILoginController, ILoggedUser } from '../interfaces/loginInterface';
 
 class Login implements ILoginController {
   readonly _loginService: ILoginService;
@@ -8,10 +9,11 @@ class Login implements ILoginController {
     this._loginService = service;
   }
 
-  public getLogin = async (req: Request, res: Response, next: NextFunction) => {
+  public getLogin = async (req: Request, res: Response, next: NextFunction):
+  Promise<void | Response<ILoggedUser>> => {
     try {
       const loginInfo: ILoginInfo = req.body;
-      const loggedUser = await this._loginService.getLogin(loginInfo);
+      const loggedUser: ILoggedUser | null = await this._loginService.getLogin(loginInfo);
 
       if (!loggedUser) {
         return next({ status: 401, message: 'Incorrect email or password' });

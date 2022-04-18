@@ -2,7 +2,14 @@ import { DataTypes, Model } from 'sequelize';
 import db from '.';
 import TeamModel from './team';
 
-class Match extends Model {
+interface IMatch {
+  homeTeam: string;
+  homeTeamGoals: string;
+  awayTeam: string;
+  inProgress: boolean;
+}
+
+class Match extends Model implements IMatch {
   homeTeam: string;
 
   homeTeamGoals: string;

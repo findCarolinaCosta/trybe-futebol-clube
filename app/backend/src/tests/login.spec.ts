@@ -20,6 +20,16 @@ interface IMockUser {
   password?: string;
 }
 
+interface IMockRes {
+  user: {
+      id: number;
+      username: string;
+      role: string;
+      email: string;
+  };
+  token: string;
+}
+
 describe("Testa rota de Login", () => {
   let chaiHttpResponse: Response;
 
@@ -31,7 +41,7 @@ describe("Testa rota de Login", () => {
   };
 
   describe("caso de sucesso ao fazer login", () => {
-    let MockResToCompare = {
+    let MockResToCompare: IMockRes = {
       user: {
         id: 2,
         username: "User",

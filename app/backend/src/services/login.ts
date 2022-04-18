@@ -19,7 +19,7 @@ class LoginService implements ILoginService {
 
     if (!loggedUser || !loggedUser.id) return null;
 
-    const token = await createToken({
+    const token: string = await createToken({
       id: loggedUser.id,
       email,
       role: loggedUser.role,

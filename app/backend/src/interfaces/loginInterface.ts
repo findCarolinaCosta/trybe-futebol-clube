@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
 import User from '../database/models/user';
 
 export interface ILoginInfo {
@@ -15,7 +16,7 @@ export interface ILoginService {
 export interface ILoginController {
   readonly _loginService: ILoginService;
   getLogin(req: Request, res: Response, next: NextFunction):
-  Promise<Response<ILoggedUser, Record<string, ILoggedUser>> | void>;
+  Promise<Response<ILoggedUser> | void>;
 }
 
 export interface ILoggedUser {
@@ -27,4 +28,10 @@ export interface ILoggedUser {
     password: string;
   }
   token?: string;
+}
+
+export interface ILoginMiddleware {
+  validateLogin(req: Request, _res: Response, next: NextFunction): void;
+  getValidate(req: Request, _res: Response, next: NextFunction):
+  Promise<void | Response<JwtPayload>>;
 }

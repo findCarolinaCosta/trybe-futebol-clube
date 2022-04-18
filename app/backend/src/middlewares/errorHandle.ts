@@ -11,7 +11,7 @@ export default function errorHandle(
   _req: Request,
   res: Response,
   _next: NextFunction,
-) {
+): Response<IError> {
   console.error(error);
 
   if (error instanceof JsonWebTokenError) {
