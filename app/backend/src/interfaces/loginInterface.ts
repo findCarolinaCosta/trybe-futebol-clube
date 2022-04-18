@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
+import User from '../database/models/user';
 
 export interface ILoginInfo {
   email: string;
   password: string;
 }
 
-export type IUserModel = any;
+export type IUserModel = typeof User; // TODO better dependency inversion
 
 export interface ILoginService {
   getLogin(info: ILoginInfo): Promise<ILoggedUser | null>;

@@ -1,18 +1,18 @@
 import { createToken } from '../utils/jwtGenerator';
-import { ILoggedUser, ILoginInfo, ILoginService } from '../interfaces/loginInterface';
+import { ILoggedUser, ILoginInfo, ILoginService, IUserModel } from '../interfaces/loginInterface';
 import User from '../database/models/user';
 
 class LoginService implements ILoginService {
-  private _model: User;
+  private _model: IUserModel;
 
-  constructor(model: User) {
+  constructor(model: IUserModel) {
     this._model = model;
   }
 
   public getLogin = async (loginInfo: ILoginInfo): Promise<ILoggedUser | null> => {
     const { email } = loginInfo;
 
-    const loggedUser: User | null = await User.findOne({
+    const loggedUser: User | null = await this._model.findOne({
       where: { email },
       attributes: { exclude: ['password'] },
     });

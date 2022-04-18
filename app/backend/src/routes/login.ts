@@ -6,8 +6,7 @@ import LoginService from '../services/login';
 
 const router = Router();
 
-const LoginModel = new User();
-const Login = new LoginController(new LoginService(LoginModel));
+const Login = new LoginController(new LoginService(User));
 
 router.post(
   '/login',
