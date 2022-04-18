@@ -1,3 +1,4 @@
+import { JsonWebTokenError } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 
 interface IError extends Error {
@@ -12,6 +13,10 @@ export default function errorHandle(
   _next: NextFunction,
 ) {
   console.error(error);
+
+  if (error instanceof JsonWebTokenError) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
 
   if (error.message) {
     return res.status(Number(error.status)).json({ message: error.message });

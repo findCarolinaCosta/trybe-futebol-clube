@@ -14,4 +14,10 @@ router.post(
   LoginMiddleware.validateLogin,
   Login.getLogin,
 );
+
+router.get(
+  '/login/validate',
+  LoginMiddleware.getValidate,
+);
+
 export default router;

@@ -10,10 +10,10 @@ class LoginService implements ILoginService {
   }
 
   public getLogin = async (loginInfo: ILoginInfo): Promise<ILoggedUser | null> => {
-    const { email, password } = loginInfo;
+    const { email } = loginInfo;
 
     const loggedUser: User | null = await User.findOne({
-      where: { email, password },
+      where: { email },
       attributes: { exclude: ['password'] },
     });
 
