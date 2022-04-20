@@ -2,6 +2,7 @@ import "mocha";
 import * as sinon from "sinon";
 import * as chai from "chai";
 import chaiHttp = require("chai-http");
+import { ITeam } from '../interfaces/teamInterfaces';
 
 import { app } from "../app";
 import TeamModel from "../database/models/team";
@@ -12,15 +13,12 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-interface IMockTeam {
-  id: number;
-  teamName: string;
-}
+
 
 describe("Testa rotas '/teams'", () => {
   let chaiHttpResponse: Response;
 
-  const MockResponde: IMockTeam[] = [
+  const MockResponde: ITeam[] = [
     {
       id: 1,
       teamName: "Avaí/Kindermann",
@@ -35,11 +33,11 @@ describe("Testa rotas '/teams'", () => {
     },
   ];
 
-  const MockResToCompare: IMockTeam[] = MockResponde;
+  const MockResToCompare: ITeam[] = MockResponde;
 
-  const MockRespondeOne: IMockTeam = MockResponde[0];
+  const MockRespondeOne: ITeam = MockResponde[0];
 
-  const MockResToCompareOne: IMockTeam = MockRespondeOne; 
+  const MockResToCompareOne: ITeam = MockRespondeOne; 
 
   describe("caso de sucesso na requisição de todos os times", () => {
     before(async () => {
