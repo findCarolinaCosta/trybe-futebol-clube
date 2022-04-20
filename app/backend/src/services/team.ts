@@ -7,15 +7,13 @@ class TeamService implements ITeamService {
     this._model = model;
   }
 
-  public async getAll(): Promise<ITeam[] | null> {
+  public async getAll(): Promise<ITeam[]> {
     const teams: ITeam[] | null = await this._model.findAll();
-
-    if (!teams) return null;
 
     return teams as ITeam[];
   }
 
-  public async findById(id: number): Promise<ITeam | null> {
+  public async findById(id: string): Promise<ITeam | null> {
     const team: ITeam | null = await this._model.findOne({
       where: { id },
     });
