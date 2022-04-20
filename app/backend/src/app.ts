@@ -27,6 +27,7 @@ class App {
   private middlewares():void {
     // routes
     this.app.use(Routes.Login);
+    this.app.use(Routes.Team);
 
     // error middleware
     this.app.use(errorHandle);
