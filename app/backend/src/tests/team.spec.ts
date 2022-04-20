@@ -15,7 +15,7 @@ const { expect } = chai;
 
 
 
-describe("Testa rotas '/teams'", () => {
+describe("Testa rotas de Times", () => {
   let chaiHttpResponse: Response;
 
   const MockResponde: ITeam[] = [
