@@ -28,6 +28,7 @@ class App {
     // routes
     this.app.use(Routes.Login);
     this.app.use(Routes.Team);
+    this.app.use(Routes.Match);
 
     // error middleware
     this.app.use(errorHandle);

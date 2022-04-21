@@ -1,20 +1,18 @@
+import { IMatch } from '@interface/matchInterfaces';
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
 import TeamModel from './team';
 
-interface IMatch {
-  homeTeam: string;
-  homeTeamGoals: string;
-  awayTeam: string;
-  inProgress: boolean;
-}
-
 class Match extends Model implements IMatch {
+  id: number;
+
   homeTeam: string;
 
   homeTeamGoals: string;
 
   awayTeam: string;
+
+  awayTeamGoals: string;
 
   inProgress: boolean;
 }
@@ -35,10 +33,10 @@ Match.init(
   },
 );
 
-TeamModel.belongsTo(Match, { foreignKey: 'homeTeam', as: 'homeTeam' });
-TeamModel.belongsTo(Match, { foreignKey: 'awayTeam', as: 'awayTeam' });
+Match.belongsTo(TeamModel, { foreignKey: 'homeTeam', as: 'teamHome' });
+Match.belongsTo(TeamModel, { foreignKey: 'awayTeam', as: 'teamAway' });
 
-Match.hasMany(TeamModel, { foreignKey: 'homeTeam', as: 'homeMatch' });
-Match.hasMany(TeamModel, { foreignKey: 'awayTeam', as: 'awayMatch' });
+TeamModel.hasMany(Match, { foreignKey: 'homeTeam', as: 'HomeMatch' });
+TeamModel.hasMany(Match, { foreignKey: 'awayTeam', as: 'AwayMatch' });
 
 export default Match;

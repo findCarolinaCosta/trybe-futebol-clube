@@ -177,7 +177,7 @@ describe("Testa rotas Matches", () => {
     it("retorna lista de partidas em andamento", async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .get(" /matches")
+        .get("/matches")
         .query({
           inProgress: true,
         })
@@ -266,7 +266,7 @@ describe("Testa rotas Matches", () => {
     it("retorna lista de partidas finalizadas", async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .get(" /matches")
+        .get("/matches")
         .query({
           inProgress: false,
         })
