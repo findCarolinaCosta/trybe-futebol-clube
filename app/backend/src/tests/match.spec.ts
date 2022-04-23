@@ -405,7 +405,7 @@ describe("Testa rotas de partidas", () => {
           return res;
         });
 
-      expect(chaiHttpResponse).to.have.status(400);
+      expect(chaiHttpResponse).to.have.status(401);
       expect(chaiHttpResponse.body).to.be.deep.equals({
         message: "It is not possible to create a match with two equal teams",
       });

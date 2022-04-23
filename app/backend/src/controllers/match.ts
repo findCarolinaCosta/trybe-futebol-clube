@@ -31,7 +31,7 @@ class MatchController implements IMatchController {
     const data = req.body as IMatch;
 
     if (data.homeTeam === data.awayTeam) {
-      return next({ status: 400,
+      return next({ status: 401,
         message: 'It is not possible to create a match with two equal teams' });
     }
 
