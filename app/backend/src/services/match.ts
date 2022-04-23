@@ -20,7 +20,24 @@ class MatchService implements IMatchService {
       { model: Team, as: 'teamAway', attributes: { exclude: ['id'] } }],
     });
 
-    return matches;
+    return matches as IMatch[];
+  }
+
+  public async create(data: IMatch): Promise<IMatch> {
+    const match: IMatch = await this._model.create({ ...data, inProgress: true });
+
+    return match as IMatch;
+  }
+
+  public async updateProgress(id: string): Promise<number | null> {
+    const [match]: [number, IMatch[]] = await this._model.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+
+    if (match === 0) return null;
+
+    return match;
   }
 }
 

@@ -13,4 +13,14 @@ router.get(
   Match.getAll,
 );
 
+router.post(
+  '/matches',
+  Match.create,
+);
+
+router.patch(
+  '/matches/:id/finish',
+  Match.updateProgress,
+);
+
 export default router;
