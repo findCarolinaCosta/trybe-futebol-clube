@@ -311,7 +311,7 @@ describe("Testa rotas de partidas", () => {
       {
         id: 16,
         teamName: "Time 2",
-      }
+      },
     ];
 
     // forma mais visível já que precisava "responder" duas vezes ...
@@ -443,6 +443,34 @@ describe("Testa rotas de partidas", () => {
       expect(chaiHttpResponse.body).to.be.deep.equals({
         message: "There is no team with such id!",
       });
+    });
+  });
+
+  describe("edita informação de uma partida", () => {
+    const MockResponse: [number, IMatch[]] = [1, []];
+
+    before(async () => {
+      sinon.stub(MatchModel, "update").resolves(MockResponse as [number, MatchModel[]]);
+    });
+
+    after(() => {
+      (MatchModel.update as sinon.SinonStub).restore();
+    });
+
+    it('atualiza partida em andamento', async () => {
+      chaiHttpResponse = await chai
+      .request(app)
+      .patch("/matches/1")
+      .send({
+        homeTeamGoals: 3,
+        awayTeamGoals: 1
+      })
+      .then((res) => {
+        return res;
+      });
+
+    expect(chaiHttpResponse).to.have.status(200);
+    expect(chaiHttpResponse.body).to.be.deep.equals({ message: "Match successfully updated!" });
     });
   });
 });
