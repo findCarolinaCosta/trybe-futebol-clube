@@ -1,4 +1,4 @@
-import { IMatch, IMatchModel, IMatchService } from '@interface/matchInterfaces';
+import { IMatch, IMatchModel, IMatchService, UpdateMatch } from '@interface/matchInterfaces';
 import Team from '../database/models/team';
 
 class MatchService implements IMatchService {
@@ -32,6 +32,18 @@ class MatchService implements IMatchService {
   public async updateProgress(id: string): Promise<number | null> {
     const [match]: [number, IMatch[]] = await this._model.update(
       { inProgress: false },
+      { where: { id } },
+    );
+
+    if (match === 0) return null;
+
+    return match;
+  }
+
+  public async update(id: string, data: UpdateMatch): Promise<number | null> {
+    const { homeTeamGoals, awayTeamGoals } = data;
+    const [match]: [number, IMatch[]] = await this._model.update(
+      { homeTeamGoals, awayTeamGoals },
       { where: { id } },
     );
 

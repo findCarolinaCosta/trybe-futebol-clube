@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { ITeamService } from '@interface/teamInterfaces';
+import { UpdateMatch, IMatch, IMatchService,
+  IMatchController } from '../interfaces/matchInterfaces';
 import { ITeam } from '../interfaces/teamInterfaces';
-import { IMatch, IMatchService, IMatchController } from '../interfaces/matchInterfaces';
 import Team from '../database/models/team';
 import TeamService from '../services/team';
 
@@ -57,6 +58,17 @@ class MatchController implements IMatchController {
     if (!isUpdate) return next({ status: 404, message: 'Match not found' });
 
     return res.status(200).json({ message: 'OK' });
+  };
+
+  public update = async (req: Request, res: Response, next: NextFunction):
+  Promise<Response<void> | void> => {
+    const { id } = req.params;
+    const data = req.body as UpdateMatch;
+    const isUpdate = await this._matchService.update(id, data);
+
+    if (!isUpdate) return next({ status: 404, message: 'Match not found' });
+
+    return res.status(200).json({ message: 'Match successfully updated!' });
   };
 }
 

@@ -23,4 +23,9 @@ router.patch(
   Match.updateProgress,
 );
 
+router.patch(
+  '/matches/:id/',
+  Match.update,
+);
+
 export default router;
