@@ -1,3 +1,4 @@
+import { ILeaderBoard } from "../interfaces/leaderBoardInterface";
 import { ITeam } from "../interfaces/teamInterfaces";
 import "mocha";
 import * as sinon from "sinon";
@@ -10,29 +11,16 @@ import MatchModel from "../database/models/match";
 import TeamModel from "../database/models/team";
 
 import { Response } from "superagent";
-import { number } from "joi";
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
-interface Ileaderboard  {
-  name: string,
-  totalPoints: number,
-  totalGames: number,
-  totalVictories: number,
-  totalDraws: number,
-  totalLosses: number,
-  goalsFavor: number,
-  goalsOwn: number,
-  goalsBalance: number,
-  efficiency: number
-}
-
 describe("Testa rotas de classificações", () => {
   let chaiHttpResponse: Response;
 
-  const getEfficiency = (P: number, J: number): number => Number((P/(J*3)* 100).toFixed(2));
+  const getEfficiency = (P: number, J: number): number =>
+    Number(((P * 100) / (J * 3)).toFixed(2)) || 0;
 
   describe("filtra classificação de times no endpoint GET '/leaderboard/home'", () => {
     const MockResponseMatchAll: IMatch[] = [
@@ -51,80 +39,142 @@ describe("Testa rotas de classificações", () => {
         },
       },
       {
-        id: 41,
-        homeTeam: "16",
-        homeTeamGoals: "2",
-        awayTeam: "9",
+        id: 2,
+        homeTeam: "9",
+        homeTeamGoals: "1",
+        awayTeam: "14",
+        awayTeamGoals: "1",
+        inProgress: false,
+        teamHome: {
+          teamName: "Internacional",
+        },
+        teamAway: {
+          teamName: "Santos",
+        },
+      },
+      {
+        id: 3,
+        homeTeam: "4",
+        homeTeamGoals: "3",
+        awayTeam: "11",
         awayTeamGoals: "0",
         inProgress: false,
         teamHome: {
-          teamName: "São Paulo",
+          teamName: "Corinthians",
         },
         teamAway: {
-          teamName: "Internacional",
+          teamName: "Napoli-SC",
         },
       },
     ];
 
     const MockRespondeTeamAll: ITeam[] = [
       {
+        id: 4,
+        teamName: "Corinthians",
+      },
+      {
+        id: 8,
+        teamName: "Grêmio",
+      },
+      {
         id: 9,
         teamName: "Internacional",
+      },
+      {
+        id: 11,
+        teamName: "Napoli-SC",
+      },
+      {
+        id: 14,
+        teamName: "Santos",
       },
       {
         id: 16,
         teamName: "São Paulo",
       },
-      {
-        id: 8,
-        teamName: "Grêmio",
-      }
     ];
 
-    const MockResClassification: Ileaderboard[] = [
+    const MockResClassification: ILeaderBoard[] = [
       {
-        name: "São Paulo",
-        totalPoints: 6,
-        totalGames: 2,
-        totalVictories: 2, // classificação 1
+        name: "Corinthians",
+        totalPoints: 3,
+        totalGames: 1,
+        totalVictories: 1,
         totalDraws: 0,
         totalLosses: 0,
-        goalsFavor: 0, // classificação 4
-        goalsOwn: 3, // classificação 3
-        goalsBalance: 3, // classificação 2
-        efficiency: getEfficiency(6, 2)
+        goalsFavor: 3,
+        goalsOwn: 0,
+        goalsBalance: 3,
+        efficiency: getEfficiency(3, 1),
+      },
+      {
+        name: "Internacional",
+        totalPoints: 1,
+        totalGames: 1,
+        totalVictories: 0,
+        totalDraws: 1,
+        totalLosses: 0,
+        goalsFavor: 1,
+        goalsOwn: 1,
+        goalsBalance: 0,
+        efficiency: getEfficiency(1, 1),
+      },
+      {
+        name: "São Paulo",
+        totalPoints: 1,
+        totalGames: 1,
+        totalVictories: 0,
+        totalDraws: 1,
+        totalLosses: 0,
+        goalsFavor: 1,
+        goalsOwn: 1,
+        goalsBalance: 0,
+        efficiency: getEfficiency(1, 1),
       },
       {
         name: "Grêmio",
         totalPoints: 0,
-        totalGames: 1,
+        totalGames: 0,
         totalVictories: 0,
         totalDraws: 0,
-        totalLosses: 1,
-        goalsFavor: 0,
-        goalsOwn: 0,
-        goalsBalance: 1,
-        efficiency: getEfficiency(0, 1)
-      },
-      {
-        name: "Internacional",
-        totalPoints: 0,
-        totalGames: 1,
-        totalVictories: 0,
-        totalDraws: 0,
-        totalLosses: 1,
+        totalLosses: 0,
         goalsFavor: 0,
         goalsOwn: 0,
         goalsBalance: 0,
-        efficiency: getEfficiency(0, 1)
-      }
+        efficiency: getEfficiency(0, 0),
+      },
+      {
+        name: "Napoli-SC",
+        totalPoints: 0,
+        totalGames: 0,
+        totalVictories: 0,
+        totalDraws: 0,
+        totalLosses: 0,
+        goalsFavor: 0,
+        goalsOwn: 0,
+        goalsBalance: 0,
+        efficiency: getEfficiency(0, 0),
+      },
+      {
+        name: "Santos",
+        totalPoints: 0,
+        totalGames: 0,
+        totalVictories: 0,
+        totalDraws: 0,
+        totalLosses: 0,
+        goalsFavor: 0,
+        goalsOwn: 0,
+        goalsBalance: 0,
+        efficiency: getEfficiency(0, 0),
+      },
     ];
 
     before(async () => {
       sinon
         .stub(MatchModel, "findAll")
         .resolves(MockResponseMatchAll as MatchModel[]);
-        sinon
+      sinon
         .stub(TeamModel, "findAll")
         .resolves(MockRespondeTeamAll as TeamModel[]);
     });

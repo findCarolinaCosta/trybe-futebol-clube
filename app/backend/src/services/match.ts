@@ -8,8 +8,8 @@ class MatchService implements IMatchService {
     this._model = model;
   }
 
-  public async getAll(inProgress: string): Promise<IMatch[] | null> {
-    const matches: IMatch[] | null = inProgress ? await this._model.findAll({
+  public async getAll(inProgress: string): Promise<IMatch[]> {
+    const matches: IMatch[] = inProgress ? await this._model.findAll({
       where: { inProgress: inProgress === 'true' },
       include: [{
         model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },

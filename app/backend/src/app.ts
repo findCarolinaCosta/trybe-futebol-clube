@@ -26,12 +26,14 @@ class App {
 
   private middlewares():void {
     // routes
-    this.app.use(Routes.Login);
-    this.app.use(Routes.Team);
-    this.app.use(Routes.Match);
+    this.app
+      .use(Routes.Login)
+      .use(Routes.Team)
+      .use(Routes.Match)
+      .use(Routes.LeaderBoard)
 
     // error middleware
-    this.app.use(errorHandle);
+      .use(errorHandle);
   }
 
   public start(PORT: string | number):void {

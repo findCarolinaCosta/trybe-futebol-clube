@@ -31,7 +31,7 @@ export type UpdateMatch = {
 };
 
 export interface IMatchService {
-  getAll(inProgress?: string): Promise<IMatch[] | null>;
+  getAll(inProgress?: string): Promise<IMatch[]>;
   create(data: IMatch): Promise<IMatch>;
   updateProgress(id: string): Promise<number | null>;
   update(id: string, data: UpdateMatch): Promise<number | null>;
