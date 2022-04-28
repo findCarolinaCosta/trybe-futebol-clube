@@ -183,7 +183,7 @@ describe("Testa rotas de classificações", () => {
       },
     ];
 
-    it("retorna lista de classificação corretamente", async () => {
+    it("retorna lista de classificação time da casa corretamente", async () => {
       chaiHttpResponse = await chai
         .request(app)
         .get("/leaderboard/home")
@@ -271,10 +271,99 @@ describe("Testa rotas de classificações", () => {
       }
     ];
 
-    it("retorna lista de classificação corretamente", async () => {
+    it("retorna lista de classificação time visitante corretamente", async () => {
       chaiHttpResponse = await chai
         .request(app)
         .get("/leaderboard/away")
+        .then((res) => {
+          return res;
+        });
+
+      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body).to.be.deep.equals(MockResClassification);
+    });
+  });
+
+  describe("filtra classificação de times no endpoint GET '/leaderboard'", () => {
+    const MockResClassification: ILeaderBoard[] = [
+      {
+        name: 'Corinthians',
+        totalPoints: 3,
+        totalGames: 1,
+        totalVictories: 1,
+        totalDraws: 0,
+        totalLosses: 0,
+        goalsFavor: 3,
+        goalsOwn: 0,
+        goalsBalance: 3,
+        efficiency: 100
+      },
+      {
+        name: 'Grêmio',
+        totalPoints: 1,
+        totalGames: 1,
+        totalVictories: 0,
+        totalDraws: 1,
+        totalLosses: 0,
+        goalsFavor: 1,
+        goalsOwn: 1,
+        goalsBalance: 0,
+        efficiency: 33.33
+      },
+      {
+        name: 'Internacional',
+        totalPoints: 1,
+        totalGames: 1,
+        totalVictories: 0,
+        totalDraws: 1,
+        totalLosses: 0,
+        goalsFavor: 1,
+        goalsOwn: 1,
+        goalsBalance: 0,
+        efficiency: 33.33
+      },
+      {
+        name: 'Santos',
+        totalPoints: 1,
+        totalGames: 1,
+        totalVictories: 0,
+        totalDraws: 1,
+        totalLosses: 0,
+        goalsFavor: 1,
+        goalsOwn: 1,
+        goalsBalance: 0,
+        efficiency: 33.33
+      },
+      {
+        name: 'São Paulo',
+        totalPoints: 1,
+        totalGames: 1,
+        totalVictories: 0,
+        totalDraws: 1,
+        totalLosses: 0,
+        goalsFavor: 1,
+        goalsOwn: 1,
+        goalsBalance: 0,
+        efficiency: 33.33
+      },
+      {
+        name: 'Napoli-SC',
+        totalPoints: 0,
+        totalGames: 1,
+        totalVictories: 0,
+        totalDraws: 0,
+        totalLosses: 1,
+        goalsFavor: 0,
+        goalsOwn: 3,
+        goalsBalance: -3,
+        efficiency: 0
+      }
+    ];
+
+    it("retorna lista de classificação geral de todos os times corretamente", async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .get("/leaderboard")
         .then((res) => {
           return res;
         });
