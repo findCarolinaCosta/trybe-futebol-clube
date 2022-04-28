@@ -11,9 +11,10 @@ class LeaderBoardController implements ILeaderBoardController {
     this._matchService = service;
   }
 
-  public getLeaderBoard = async (_req: Request, res: Response, _next: NextFunction):
+  public getLeaderBoard = async (req: Request, res: Response, _next: NextFunction):
   Promise<Response<ILeaderBoard[]>> => {
-    const leaderBoards: ILeaderBoard[] | null = await this._matchService.getLeaderBoard();
+    const { path } = req;
+    const leaderBoards: ILeaderBoard[] | null = await this._matchService.getLeaderBoard(path);
 
     return res.status(200).json(leaderBoards);
   };

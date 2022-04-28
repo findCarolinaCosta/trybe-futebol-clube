@@ -14,4 +14,9 @@ router.get(
   LeaderBoard.getLeaderBoard,
 );
 
+router.get(
+  '/leaderboard/away',
+  LeaderBoard.getLeaderBoard,
+);
+
 export default router;

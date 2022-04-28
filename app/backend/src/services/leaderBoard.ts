@@ -1,8 +1,8 @@
-import { ILeaderBoard, ILeaderBoardService, MatchDetails } from '@interface/leaderBoardInterface';
+import { ILeaderBoard, ILeaderBoardService } from '@interface/leaderBoardInterface';
 import { IMatch, IMatchService } from '@interface/matchInterfaces';
 import { ITeam, ITeamService } from '@interface/teamInterfaces';
+import getLeaderBoard from '../utils/getLeaderBoard';
 import sortLeaderBoard from '../utils/sortLeaderBoard';
-import SerializeLeaderBoard from '../utils/SerializeLeaderBoard';
 import TeamService from './team';
 import MatchService from './match';
 import TeamModel from '../database/models/team';
@@ -21,20 +21,15 @@ class LeaderboardService implements ILeaderBoardService {
     this._teamService = teamService;
   }
 
-  public async getLeaderBoard(): Promise<ILeaderBoard[]> {
+  public async getLeaderBoard(path: string): Promise<ILeaderBoard[]> {
     const matches: IMatch[] = await this._matchService.getAll('false');
     const teams: ITeam[] = await this._teamService.getAll();
-    const leaderBoard: ILeaderBoard[] = await Promise.all(
-      teams.map((team) => {
-        const matchDetails: MatchDetails[] = matches
-          .filter((match) => Number(match.homeTeam) === team.id)
-          .map((match) => ({
-            goalsFavor: Number(match.homeTeamGoals), goalsOwn: Number(match.awayTeamGoals) }));
 
-        const teamDetail: ILeaderBoard = new SerializeLeaderBoard(team.teamName, matchDetails);
-        return teamDetail;
-      }),
-    );
+    const leaderBoard: ILeaderBoard[] = await getLeaderBoard({
+      path,
+      matches,
+      teams,
+    });
 
     return sortLeaderBoard(leaderBoard);
   }

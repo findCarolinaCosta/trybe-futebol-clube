@@ -14,7 +14,7 @@ export interface ILeaderBoard {
 }
 
 export interface ILeaderBoardService {
-  getLeaderBoard(): Promise<ILeaderBoard[]>;
+  getLeaderBoard(path: string): Promise<ILeaderBoard[]>;
 }
 
 export type MatchDetails = {
