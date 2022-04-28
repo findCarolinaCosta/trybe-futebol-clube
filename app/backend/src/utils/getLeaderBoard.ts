@@ -10,7 +10,7 @@ type InfosLeaderBoard = {
 };
 
 // se tiver na rota /leaderboard/home retorna LeaderBoard homeTeam se não estará na rota /leaderboard/away = LeaderBoard awayTeam
-export default function getLeaderBoard({ path, matches, teams }: InfosLeaderBoard):
+export default async function getLeaderBoard({ path, matches, teams }: InfosLeaderBoard):
 Promise<ILeaderBoard[]> {
   return path === '/leaderboard/home' ? Promise.all(
     teams.map((team) => {
@@ -30,3 +30,18 @@ Promise<ILeaderBoard[]> {
     }),
   );
 }
+
+// Classificação de todos os times
+export const getAllLeaderBoard = async (teams: ITeam[], matches: IMatch[]) => Promise.all(
+  teams.map((team) => {
+    const homeDetails: MatchDetails[] = matches
+      .filter((match) => Number(match.homeTeam) === team.id).map((match) => ({
+        goalsFavor: Number(match.homeTeamGoals), goalsOwn: Number(match.awayTeamGoals) }));
+    const awayDetails: MatchDetails[] = matches
+      .filter((match) => Number(match.awayTeam) === team.id)
+      .map((match) => ({
+        goalsFavor: Number(match.awayTeamGoals), goalsOwn: Number(match.homeTeamGoals) }));
+
+    return new SerializeLeaderBoard(team.teamName, [...homeDetails, ...awayDetails]);
+  }),
+);

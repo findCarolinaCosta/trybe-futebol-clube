@@ -10,6 +10,11 @@ const LeaderBoard: ILeaderBoardController = new LeaderBoardController(
 );
 
 router.get(
+  '/leaderboard',
+  LeaderBoard.getLeaderBoard,
+);
+
+router.get(
   '/leaderboard/home',
   LeaderBoard.getLeaderBoard,
 );

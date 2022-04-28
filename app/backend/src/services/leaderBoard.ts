@@ -1,7 +1,7 @@
 import { ILeaderBoard, ILeaderBoardService } from '@interface/leaderBoardInterface';
 import { IMatch, IMatchService } from '@interface/matchInterfaces';
 import { ITeam, ITeamService } from '@interface/teamInterfaces';
-import getLeaderBoard from '../utils/getLeaderBoard';
+import getLeaderBoard, { getAllLeaderBoard } from '../utils/getLeaderBoard';
 import sortLeaderBoard from '../utils/sortLeaderBoard';
 import TeamService from './team';
 import MatchService from './match';
@@ -24,12 +24,13 @@ class LeaderboardService implements ILeaderBoardService {
   public async getLeaderBoard(path: string): Promise<ILeaderBoard[]> {
     const matches: IMatch[] = await this._matchService.getAll('false');
     const teams: ITeam[] = await this._teamService.getAll();
+    let leaderBoard: ILeaderBoard[] = [];
 
-    const leaderBoard: ILeaderBoard[] = await getLeaderBoard({
-      path,
-      matches,
-      teams,
-    });
+    if (path === '/leaderboard') {
+      leaderBoard = await getAllLeaderBoard(teams, matches);
+    } else {
+      leaderBoard = await getLeaderBoard({ path, matches, teams });
+    }
 
     return sortLeaderBoard(leaderBoard);
   }
